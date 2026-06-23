@@ -5,7 +5,9 @@ public class QuantityMeasurementApp {
     public enum LengthUnit {
 
         FEET(1.0),
-        INCH(1.0 / 12.0);
+        INCH(1.0 / 12.0),
+        YARD(3.0),
+        CENTIMETER(0.0328084167);
 
         private final double conversionFactor;
 
@@ -37,6 +39,8 @@ public class QuantityMeasurementApp {
             return value * unit.getConversionFactor();
         }
 
+        private static final double EPSILON = 0.00001;
+
         @Override
         public boolean equals(Object obj) {
 
@@ -50,9 +54,10 @@ public class QuantityMeasurementApp {
 
             QuantityLength other = (QuantityLength) obj;
 
-            return Double.compare(
-                    this.convertToFeet(),
-                    other.convertToFeet()) == 0;
+            return Math.abs(
+                    this.convertToFeet()
+                            - other.convertToFeet()
+            ) < EPSILON;
         }
     }
 
@@ -76,19 +81,22 @@ public class QuantityMeasurementApp {
         System.out.println(
                 checkLengthEquality(
                         1.0,
-                        LengthUnit.FEET,
-                        12.0,
-                        LengthUnit.INCH
-                )
-        );
+                        LengthUnit.YARD,
+                        3.0,
+                        LengthUnit.FEET));
 
         System.out.println(
                 checkLengthEquality(
                         1.0,
-                        LengthUnit.INCH,
+                        LengthUnit.YARD,
+                        36.0,
+                        LengthUnit.INCH));
+
+        System.out.println(
+                checkLengthEquality(
                         1.0,
-                        LengthUnit.INCH
-                )
-        );
+                        LengthUnit.CENTIMETER,
+                        0.393701,
+                        LengthUnit.INCH));
     }
 }
