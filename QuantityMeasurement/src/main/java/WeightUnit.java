@@ -1,6 +1,6 @@
 package main.java;
 
-public enum WeightUnit {
+public enum WeightUnit implements IMeasurable {
 
     KILOGRAM(1.0),
     GRAM(0.001),
@@ -12,28 +12,23 @@ public enum WeightUnit {
         this.conversionFactor = conversionFactor;
     }
 
+    @Override
     public double getConversionFactor() {
         return conversionFactor;
     }
 
+    @Override
     public double convertToBaseUnit(double value) {
-
-        if (!Double.isFinite(value)) {
-            throw new IllegalArgumentException(
-                    "Value must be finite");
-        }
-
         return value * conversionFactor;
     }
 
-    public double convertFromBaseUnit(
-            double baseValue) {
-
-        if (!Double.isFinite(baseValue)) {
-            throw new IllegalArgumentException(
-                    "Value must be finite");
-        }
-
+    @Override
+    public double convertFromBaseUnit(double baseValue) {
         return baseValue / conversionFactor;
+    }
+
+    @Override
+    public String getUnitName() {
+        return name();
     }
 }

@@ -2,135 +2,83 @@ package main.java;
 
 public class QuantityMeasurementApp {
 
-    public static double convert(
-            double value,
-            LengthUnit sourceUnit,
-            LengthUnit targetUnit) {
-
-        if (!Double.isFinite(value)) {
-            throw new IllegalArgumentException(
-                    "Value must be finite");
-        }
-
-        if (sourceUnit == null ||
-                targetUnit == null) {
-
-            throw new IllegalArgumentException(
-                    "Unit cannot be null");
-        }
-
-        double baseValue =
-                sourceUnit.convertToBaseUnit(
-                        value);
-
-        return targetUnit.convertFromBaseUnit(
-                baseValue);
-    }
-
-
-    public static void demonstrateWeightConversion(
-            QuantityWeight weight,
-            WeightUnit targetUnit) {
+    public static <U extends IMeasurable>
+    void demonstrateEquality(
+            Quantity<U> q1,
+            Quantity<U> q2) {
 
         System.out.println(
-                weight.convertTo(targetUnit));
+                q1.equals(q2));
     }
 
-    public static void demonstrateWeightEquality(
-            QuantityWeight weight1,
-            QuantityWeight weight2) {
+    public static <U extends IMeasurable>
+    void demonstrateConversion(
+            Quantity<U> quantity,
+            U targetUnit) {
 
         System.out.println(
-                weight1.equals(weight2));
-    }
-
-    public static void demonstrateWeightAddition(
-            QuantityWeight weight1,
-            QuantityWeight weight2) {
-
-        System.out.println(
-                weight1.add(weight2));
-    }
-
-    public static void demonstrateWeightAddition(
-            QuantityWeight weight1,
-            QuantityWeight weight2,
-            WeightUnit targetUnit) {
-
-        System.out.println(
-                weight1.add(
-                        weight2,
+                quantity.convertTo(
                         targetUnit));
     }
+
+    public static <U extends IMeasurable>
+    void demonstrateAddition(
+            Quantity<U> q1,
+            Quantity<U> q2,
+            U targetUnit) {
+
+        System.out.println(
+                q1.add(
+                        q2,
+                        targetUnit));
+    }
+
     public static void main(String[] args) {
 
-        QuantityLength feet =
-                new QuantityLength(
+        Quantity<LengthUnit> foot =
+                new Quantity<>(
                         1.0,
                         LengthUnit.FEET);
 
-        QuantityLength inch =
-                new QuantityLength(
+        Quantity<LengthUnit> inch =
+                new Quantity<>(
                         12.0,
                         LengthUnit.INCH);
 
-        System.out.println(
-                feet.convertTo(
-                        LengthUnit.INCH));
+        demonstrateEquality(
+                foot,
+                inch);
 
-        System.out.println(
-                feet.add(
-                        inch,
-                        LengthUnit.FEET));
+        demonstrateConversion(
+                foot,
+                LengthUnit.INCH);
 
-        System.out.println(
-                feet.add(
-                        inch,
-                        LengthUnit.YARD));
+        demonstrateAddition(
+                foot,
+                inch,
+                LengthUnit.FEET);
 
-        System.out.println(
-                new QuantityLength(
-                        36.0,
-                        LengthUnit.INCH)
-                        .equals(
-                                new QuantityLength(
-                                        1.0,
-                                        LengthUnit.YARD)));
-
-
-
-        QuantityWeight kilogram =
-                new QuantityWeight(
+        Quantity<WeightUnit> kilogram =
+                new Quantity<>(
                         1.0,
                         WeightUnit.KILOGRAM);
 
-        QuantityWeight gram =
-                new QuantityWeight(
+        Quantity<WeightUnit> gram =
+                new Quantity<>(
                         1000.0,
                         WeightUnit.GRAM);
 
-        QuantityWeight pound =
-                new QuantityWeight(
-                        2.20462,
-                        WeightUnit.POUND);
-
-        demonstrateWeightEquality(
+        demonstrateEquality(
                 kilogram,
                 gram);
 
-        demonstrateWeightConversion(
+        demonstrateConversion(
                 kilogram,
-                WeightUnit.POUND);
+                WeightUnit.GRAM);
 
-        demonstrateWeightAddition(
-                kilogram,
-                gram);
-
-        demonstrateWeightAddition(
+        demonstrateAddition(
                 kilogram,
                 gram,
-                WeightUnit.GRAM);
+                WeightUnit.KILOGRAM);
     }
-
-
 }

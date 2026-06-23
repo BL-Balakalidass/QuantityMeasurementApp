@@ -1,11 +1,11 @@
 package main.java;
 
-public enum LengthUnit {
+public enum LengthUnit implements IMeasurable {
 
     FEET(1.0),
     INCH(1.0 / 12.0),
     YARD(3.0),
-    CENTIMETER(1.0 / 30.48);
+    CENTIMETER(0.393701 / 12.0);
 
     private final double conversionFactor;
 
@@ -13,25 +13,23 @@ public enum LengthUnit {
         this.conversionFactor = conversionFactor;
     }
 
+    @Override
     public double getConversionFactor() {
         return conversionFactor;
     }
 
+    @Override
     public double convertToBaseUnit(double value) {
-
-        if (!Double.isFinite(value)) {
-            throw new IllegalArgumentException("Invalid value");
-        }
-
         return value * conversionFactor;
     }
 
+    @Override
     public double convertFromBaseUnit(double baseValue) {
-
-        if (!Double.isFinite(baseValue)) {
-            throw new IllegalArgumentException("Invalid value");
-        }
-
         return baseValue / conversionFactor;
+    }
+
+    @Override
+    public String getUnitName() {
+        return name();
     }
 }
