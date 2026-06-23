@@ -297,5 +297,171 @@ public class QuantityMeasurementAppTest {
                 feet.equals(kilogram));
     }
 
+    @Test
+    void testSubtraction_SameUnit_FeetMinusFeet() {
+
+        Quantity<LengthUnit> result =
+                new Quantity<>(10.0,
+                        LengthUnit.FEET)
+                        .subtract(
+                                new Quantity<>(5.0,
+                                        LengthUnit.FEET));
+
+        assertEquals(
+                new Quantity<>(5.0,
+                        LengthUnit.FEET),
+                result);
+    }
+
+    @Test
+    void testSubtraction_CrossUnit_FeetMinusInches() {
+
+        Quantity<LengthUnit> result =
+                new Quantity<>(10.0,
+                        LengthUnit.FEET)
+                        .subtract(
+                                new Quantity<>(6.0,
+                                        LengthUnit.INCH));
+
+        assertEquals(
+                new Quantity<>(9.5,
+                        LengthUnit.FEET),
+                result);
+    }
+
+    @Test
+    void testSubtraction_ExplicitTargetUnit_Inches() {
+
+        Quantity<LengthUnit> result =
+                new Quantity<>(10.0,
+                        LengthUnit.FEET)
+                        .subtract(
+                                new Quantity<>(6.0,
+                                        LengthUnit.INCH),
+                                LengthUnit.INCH);
+
+        assertEquals(
+                new Quantity<>(114.0,
+                        LengthUnit.INCH),
+                result);
+    }
+
+    @Test
+    void testSubtraction_ResultingInNegative() {
+
+        Quantity<LengthUnit> result =
+                new Quantity<>(5.0,
+                        LengthUnit.FEET)
+                        .subtract(
+                                new Quantity<>(10.0,
+                                        LengthUnit.FEET));
+
+        assertEquals(
+                new Quantity<>(-5.0,
+                        LengthUnit.FEET),
+                result);
+    }
+
+    @Test
+    void testSubtraction_ResultingInZero() {
+
+        Quantity<LengthUnit> result =
+                new Quantity<>(10.0,
+                        LengthUnit.FEET)
+                        .subtract(
+                                new Quantity<>(120.0,
+                                        LengthUnit.INCH));
+
+        assertEquals(
+                new Quantity<>(0.0,
+                        LengthUnit.FEET),
+                result);
+    }
+
+    @Test
+    void testDivision_SameUnit_FeetDividedByFeet() {
+
+        double result =
+                new Quantity<>(10.0,
+                        LengthUnit.FEET)
+                        .divide(
+                                new Quantity<>(2.0,
+                                        LengthUnit.FEET));
+
+        assertEquals(5.0, result, EPSILON);
+    }
+
+    @Test
+    void testDivision_CrossUnit_FeetDividedByInches() {
+
+        double result =
+                new Quantity<>(24.0,
+                        LengthUnit.INCH)
+                        .divide(
+                                new Quantity<>(2.0,
+                                        LengthUnit.FEET));
+
+        assertEquals(1.0, result, EPSILON);
+    }
+
+    @Test
+    void testDivision_ByZero() {
+
+        assertThrows(
+                ArithmeticException.class,
+                () -> new Quantity<>(10.0,
+                        LengthUnit.FEET)
+                        .divide(
+                                new Quantity<>(0.0,
+                                        LengthUnit.FEET)));
+    }
+
+    @Test
+    @SuppressWarnings({"rawtypes","unchecked"})
+    void testSubtraction_CrossCategory() {
+
+        Quantity length =
+                new Quantity<>(10.0,
+                        LengthUnit.FEET);
+
+        Quantity weight =
+                new Quantity<>(5.0,
+                        WeightUnit.KILOGRAM);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> length.subtract(weight));
+    }
+
+    @Test
+    void testSubtraction_Immutability() {
+
+        Quantity<LengthUnit> original =
+                new Quantity<>(10.0,
+                        LengthUnit.FEET);
+
+        Quantity<LengthUnit> other =
+                new Quantity<>(5.0,
+                        LengthUnit.FEET);
+
+        Quantity<LengthUnit> result =
+                original.subtract(other);
+
+        assertEquals(
+                new Quantity<>(10.0,
+                        LengthUnit.FEET),
+                original);
+
+        assertEquals(
+                new Quantity<>(5.0,
+                        LengthUnit.FEET),
+                other);
+
+        assertEquals(
+                new Quantity<>(5.0,
+                        LengthUnit.FEET),
+                result);
+    }
+
 
 }

@@ -126,6 +126,92 @@ public class Quantity<U extends IMeasurable> {
                 < EPSILON;
     }
 
+    public Quantity<U> subtract(Quantity<U> other) {
+        return subtract(other, this.unit);
+    }
+
+    public Quantity<U> subtract(Quantity<U> other, U targetUnit) {
+        validateQuantity(other);
+
+        if (targetUnit == null) {
+            throw new IllegalArgumentException("Target unit cannot be null");
+        }
+
+        validateCompatibleUnit(targetUnit);
+
+        double thisBase =
+                unit.convertToBaseUnit(value);
+
+        double otherBase =
+                other.unit.convertToBaseUnit(other.value);
+
+        double resultBase =
+                thisBase - otherBase;
+
+        double converted =
+                targetUnit.convertFromBaseUnit(resultBase);
+
+        converted = roundToTwoDecimals(converted);
+
+        return new Quantity<>(converted, targetUnit);
+    }
+
+    private void validateCompatibleUnit(U targetUnit) {
+        if (targetUnit == null) {
+            throw new IllegalArgumentException("Target unit cannot be null");
+        }
+
+        if (!unit.getClass().equals(targetUnit.getClass())) {
+            throw new IllegalArgumentException(
+                    "Target unit must belong to the same measurement category");
+        }
+    }
+    public double divide(Quantity<U> other) {
+
+        validateQuantity(other);
+
+        double divisor =
+                other.unit.convertToBaseUnit(other.value);
+
+        if (Math.abs(divisor) < EPSILON) {
+            throw new ArithmeticException(
+                    "Cannot divide by zero quantity");
+        }
+
+        double dividend =
+                unit.convertToBaseUnit(value);
+
+        return dividend / divisor;
+    }
+
+    private void validateQuantity(Quantity<U> other) {
+
+        if (other == null) {
+            throw new IllegalArgumentException(
+                    "Quantity cannot be null");
+        }
+
+        if (other.unit == null) {
+            throw new IllegalArgumentException(
+                    "Unit cannot be null");
+        }
+
+        if (!unit.getClass().equals(other.unit.getClass())) {
+            throw new IllegalArgumentException(
+                    "Incompatible measurement categories");
+        }
+
+        if (!Double.isFinite(value)
+                || !Double.isFinite(other.value)) {
+            throw new IllegalArgumentException(
+                    "Value must be finite");
+        }
+    }
+
+    private double roundToTwoDecimals(double value) {
+        return Math.round(value * 100.0) / 100.0;
+    }
+
     @Override
     public int hashCode() {
 
@@ -134,6 +220,8 @@ public class Quantity<U extends IMeasurable> {
 
         return Double.hashCode(baseValue);
     }
+
+
 
     @Override
     public String toString() {
