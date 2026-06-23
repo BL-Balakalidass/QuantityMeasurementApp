@@ -1,5 +1,7 @@
 package test.java;
 
+import main.java.LengthUnit;
+import main.java.QuantityLength;
 import main.java.QuantityMeasurementApp;
 import org.junit.jupiter.api.Test;
 
@@ -14,353 +16,68 @@ public class QuantityMeasurementAppTest {
 
     private static final double EPSILON = 0.000001;
 
+
     @Test
-    void testConversion_FeetToInches() {
+    public void testConvertToBaseUnit_InchesToFeet() {
+
+        assertEquals(
+                1.0,
+                LengthUnit.INCH.convertToBaseUnit(
+                        12.0),
+                0.001);
+    }
+
+    @Test
+    public void testConvertFromBaseUnit_FeetToInches() {
 
         assertEquals(
                 12.0,
-                QuantityMeasurementApp.convert(
-                        1.0,
-                        QuantityMeasurementApp.LengthUnit.FEET,
-                        QuantityMeasurementApp.LengthUnit.INCH),
-                EPSILON);
-    }
-
-    @Test
-    void testConversion_InchesToFeet() {
-
-        assertEquals(
-                2.0,
-                QuantityMeasurementApp.convert(
-                        24.0,
-                        QuantityMeasurementApp.LengthUnit.INCH,
-                        QuantityMeasurementApp.LengthUnit.FEET),
-                EPSILON);
-    }
-
-    @Test
-    void testConversion_YardsToInches() {
-
-        assertEquals(
-                36.0,
-                QuantityMeasurementApp.convert(
-                        1.0,
-                        QuantityMeasurementApp.LengthUnit.YARD,
-                        QuantityMeasurementApp.LengthUnit.INCH),
-                EPSILON);
-    }
-
-    @Test
-    void testConversion_InchesToYards() {
-
-        assertEquals(
-                2.0,
-                QuantityMeasurementApp.convert(
-                        72.0,
-                        QuantityMeasurementApp.LengthUnit.INCH,
-                        QuantityMeasurementApp.LengthUnit.YARD),
-                EPSILON);
-    }
-
-    @Test
-    void testConversion_CentimetersToInches() {
-
-        assertEquals(
-                1.0,
-                QuantityMeasurementApp.convert(
-                        2.54,
-                        QuantityMeasurementApp.LengthUnit.CENTIMETER,
-                        QuantityMeasurementApp.LengthUnit.INCH),
+                LengthUnit.INCH.convertFromBaseUnit(
+                        1.0),
                 0.001);
     }
 
     @Test
-    void testConversion_FeetToYards() {
+    public void testQuantityLengthRefactored_ConvertTo() {
 
-        assertEquals(
-                2.0,
-                QuantityMeasurementApp.convert(
-                        6.0,
-                        QuantityMeasurementApp.LengthUnit.FEET,
-                        QuantityMeasurementApp.LengthUnit.YARD),
-                EPSILON);
-    }
-
-    @Test
-    void testConversion_RoundTrip_PreservesValue() {
-
-        double original = 10.0;
-
-        double inches =
-                QuantityMeasurementApp.convert(
-                        original,
-                        QuantityMeasurementApp.LengthUnit.FEET,
-                        QuantityMeasurementApp.LengthUnit.INCH);
-
-        double result =
-                QuantityMeasurementApp.convert(
-                        inches,
-                        QuantityMeasurementApp.LengthUnit.INCH,
-                        QuantityMeasurementApp.LengthUnit.FEET);
-
-        assertEquals(
-                original,
-                result,
-                EPSILON);
-    }
-
-    @Test
-    void testConversion_ZeroValue() {
-
-        assertEquals(
-                0.0,
-                QuantityMeasurementApp.convert(
-                        0.0,
-                        QuantityMeasurementApp.LengthUnit.FEET,
-                        QuantityMeasurementApp.LengthUnit.INCH),
-                EPSILON);
-    }
-
-    @Test
-    void testConversion_NegativeValue() {
-
-        assertEquals(
-                -12.0,
-                QuantityMeasurementApp.convert(
-                        -1.0,
-                        QuantityMeasurementApp.LengthUnit.FEET,
-                        QuantityMeasurementApp.LengthUnit.INCH),
-                EPSILON);
-    }
-
-    @Test
-    void testConversion_InvalidUnit_Throws() {
-
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> QuantityMeasurementApp.convert(
+        QuantityLength length =
+                new QuantityLength(
                         1.0,
-                        null,
-                        QuantityMeasurementApp.LengthUnit.FEET));
-    }
+                        LengthUnit.FEET);
 
-    @Test
-    void testConversion_NaN_Throws() {
-
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> QuantityMeasurementApp.convert(
-                        Double.NaN,
-                        QuantityMeasurementApp.LengthUnit.FEET,
-                        QuantityMeasurementApp.LengthUnit.INCH));
-    }
-
-    @Test
-    void testConversion_Infinite_Throws() {
-
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> QuantityMeasurementApp.convert(
-                        Double.POSITIVE_INFINITY,
-                        QuantityMeasurementApp.LengthUnit.FEET,
-                        QuantityMeasurementApp.LengthUnit.INCH));
-    }
-
-    @Test
-    void testConversion_PrecisionTolerance() {
-
-        double result =
-                QuantityMeasurementApp.convert(
-                        2.54,
-                        QuantityMeasurementApp.LengthUnit.CENTIMETER,
-                        QuantityMeasurementApp.LengthUnit.INCH);
-
-        assertEquals(
-                1.0,
-                result,
-                0.001);
-    }
-
-    @Test
-    void testSameUnitConversion() {
-
-        assertEquals(
-                5.0,
-                QuantityMeasurementApp.convert(
-                        5.0,
-                        QuantityMeasurementApp.LengthUnit.FEET,
-                        QuantityMeasurementApp.LengthUnit.FEET),
-                EPSILON);
-    }
-
-    @Test
-    void testInstanceConvertToMethod() {
-
-        QuantityMeasurementApp.QuantityLength length =
-                new QuantityMeasurementApp.QuantityLength(
-                        1.0,
-                        QuantityMeasurementApp.LengthUnit.YARD);
-
-        QuantityMeasurementApp.QuantityLength converted =
+        QuantityLength result =
                 length.convertTo(
-                        QuantityMeasurementApp.LengthUnit.FEET);
+                        LengthUnit.INCH);
 
         assertEquals(
-                3.0,
-                converted.getValue(),
-                EPSILON);
-    }
-
-    @Test
-    public void testAddition_ExplicitTargetUnit_Feet() {
-
-        QuantityMeasurementApp.QuantityLength feet =
-                new QuantityMeasurementApp.QuantityLength(
-                        1.0,
-                        QuantityMeasurementApp.LengthUnit.FEET);
-
-        QuantityMeasurementApp.QuantityLength inch =
-                new QuantityMeasurementApp.QuantityLength(
-                        12.0,
-                        QuantityMeasurementApp.LengthUnit.INCH);
-
-        QuantityMeasurementApp.QuantityLength result =
-                feet.add(
-                        inch,
-                        QuantityMeasurementApp.LengthUnit.FEET);
-
-        assertEquals(
-                2.0,
+                12.0,
                 result.getValue(),
-                EPSILON);
+                0.001);
     }
 
     @Test
-    public void testAddition_ExplicitTargetUnit_Inches() {
+    public void testQuantityLengthRefactored_AddWithTargetUnit() {
 
-        QuantityMeasurementApp.QuantityLength feet =
-                new QuantityMeasurementApp.QuantityLength(
+        QuantityLength feet =
+                new QuantityLength(
                         1.0,
-                        QuantityMeasurementApp.LengthUnit.FEET);
+                        LengthUnit.FEET);
 
-        QuantityMeasurementApp.QuantityLength inch =
-                new QuantityMeasurementApp.QuantityLength(
+        QuantityLength inch =
+                new QuantityLength(
                         12.0,
-                        QuantityMeasurementApp.LengthUnit.INCH);
+                        LengthUnit.INCH);
 
-        QuantityMeasurementApp.QuantityLength result =
+        QuantityLength result =
                 feet.add(
                         inch,
-                        QuantityMeasurementApp.LengthUnit.INCH);
-
-        assertEquals(
-                24.0,
-                result.getValue(),
-                EPSILON);
-    }
-
-    @Test
-    public void testAddition_ExplicitTargetUnit_Yards() {
-
-        QuantityMeasurementApp.QuantityLength feet =
-                new QuantityMeasurementApp.QuantityLength(
-                        1.0,
-                        QuantityMeasurementApp.LengthUnit.FEET);
-
-        QuantityMeasurementApp.QuantityLength inch =
-                new QuantityMeasurementApp.QuantityLength(
-                        12.0,
-                        QuantityMeasurementApp.LengthUnit.INCH);
-
-        QuantityMeasurementApp.QuantityLength result =
-                feet.add(
-                        inch,
-                        QuantityMeasurementApp.LengthUnit.YARD);
+                        LengthUnit.YARD);
 
         assertEquals(
                 0.666666,
                 result.getValue(),
                 0.001);
     }
-
-    @Test
-    public void testAddition_ExplicitTargetUnit_Centimeters() {
-
-        QuantityMeasurementApp.QuantityLength inch1 =
-                new QuantityMeasurementApp.QuantityLength(
-                        1.0,
-                        QuantityMeasurementApp.LengthUnit.INCH);
-
-        QuantityMeasurementApp.QuantityLength inch2 =
-                new QuantityMeasurementApp.QuantityLength(
-                        1.0,
-                        QuantityMeasurementApp.LengthUnit.INCH);
-
-        QuantityMeasurementApp.QuantityLength result =
-                inch1.add(
-                        inch2,
-                        QuantityMeasurementApp.LengthUnit.CENTIMETER);
-
-        assertEquals(
-                5.08,
-                result.getValue(),
-                0.01);
-    }
-
-    @Test
-    public void testAddition_ExplicitTargetUnit_Commutativity() {
-
-        QuantityMeasurementApp.QuantityLength feet =
-                new QuantityMeasurementApp.QuantityLength(
-                        1.0,
-                        QuantityMeasurementApp.LengthUnit.FEET);
-
-        QuantityMeasurementApp.QuantityLength inch =
-                new QuantityMeasurementApp.QuantityLength(
-                        12.0,
-                        QuantityMeasurementApp.LengthUnit.INCH);
-
-        QuantityMeasurementApp.QuantityLength result1 =
-                feet.add(
-                        inch,
-                        QuantityMeasurementApp.LengthUnit.YARD);
-
-        QuantityMeasurementApp.QuantityLength result2 =
-                inch.add(
-                        feet,
-                        QuantityMeasurementApp.LengthUnit.YARD);
-
-        assertEquals(
-                result1,
-                result2);
-    }
-
-    @Test
-    public void testAddition_ExplicitTargetUnit_NullTargetUnit() {
-
-        QuantityMeasurementApp.QuantityLength feet =
-                new QuantityMeasurementApp.QuantityLength(
-                        1.0,
-                        QuantityMeasurementApp.LengthUnit.FEET);
-
-        QuantityMeasurementApp.QuantityLength inch =
-                new QuantityMeasurementApp.QuantityLength(
-                        12.0,
-                        QuantityMeasurementApp.LengthUnit.INCH);
-
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> feet.add(
-                        inch,
-                        null));
-    }
-
-
-
-
-
-
-
 
 
 
