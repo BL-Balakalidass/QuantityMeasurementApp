@@ -45,10 +45,12 @@ public class QuantityMeasurementApp {
             return value * unit.getConversionFactor();
         }
 
-        public QuantityLength convertTo(LengthUnit targetUnit) {
+        public QuantityLength convertTo(
+                LengthUnit targetUnit) {
 
             if (targetUnit == null) {
-                throw new IllegalArgumentException("Target unit cannot be null");
+                throw new IllegalArgumentException(
+                        "Target unit cannot be null");
             }
 
             double convertedValue =
@@ -69,6 +71,66 @@ public class QuantityMeasurementApp {
         public LengthUnit getUnit() {
             return unit;
         }
+
+        private QuantityLength addInternal(
+                QuantityLength other,
+                LengthUnit targetUnit) {
+
+            if (other == null) {
+                throw new IllegalArgumentException(
+                        "Other quantity cannot be null");
+            }
+
+            if (targetUnit == null) {
+                throw new IllegalArgumentException(
+                        "Target unit cannot be null");
+            }
+
+            double firstLengthInFeet =
+                    this.convertToFeet();
+
+            double secondLengthInFeet =
+                    other.convertToFeet();
+
+            double sumInFeet =
+                    firstLengthInFeet +
+                            secondLengthInFeet;
+
+            double resultValue =
+                    sumInFeet /
+                            targetUnit.getConversionFactor();
+
+            return new QuantityLength(
+                    resultValue,
+                    targetUnit);
+        }
+
+        public QuantityLength add(
+                QuantityLength other,
+                LengthUnit targetUnit) {
+
+            return addInternal(
+                    other,
+                    targetUnit);
+        }
+
+        public static QuantityLength add(
+                QuantityLength firstLength,
+                QuantityLength secondLength,
+                LengthUnit targetUnit) {
+
+            if (firstLength == null ||
+                    secondLength == null) {
+
+                throw new IllegalArgumentException(
+                        "Lengths cannot be null");
+            }
+
+            return firstLength.add(
+                    secondLength,
+                    targetUnit);
+        }
+
 
         @Override
         public boolean equals(Object obj) {
@@ -98,6 +160,24 @@ public class QuantityMeasurementApp {
                     ", unit=" + unit +
                     '}';
         }
+    }
+
+    public static void demonstrateLengthAddition(
+            QuantityLength length1,
+            QuantityLength length2,
+            LengthUnit targetUnit) {
+
+        QuantityLength result =
+                length1.add(
+                        length2,
+                        targetUnit);
+
+        System.out.println(
+                length1 +
+                        " + " +
+                        length2 +
+                        " = " +
+                        result);
     }
 
     public static double convert(
@@ -195,5 +275,30 @@ public class QuantityMeasurementApp {
                 LengthUnit.YARD,
                 36.0,
                 LengthUnit.INCH);
+
+        QuantityLength oneFoot =
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.FEET);
+
+        QuantityLength twelveInches =
+                new QuantityLength(
+                        12.0,
+                        LengthUnit.INCH);
+
+        demonstrateLengthAddition(
+                oneFoot,
+                twelveInches,
+                LengthUnit.FEET);
+
+        demonstrateLengthAddition(
+                oneFoot,
+                twelveInches,
+                LengthUnit.INCH);
+
+        demonstrateLengthAddition(
+                oneFoot,
+                twelveInches,
+                LengthUnit.YARD);
     }
 }
