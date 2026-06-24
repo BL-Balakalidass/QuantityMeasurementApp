@@ -1,4 +1,8 @@
 package main.java;
+import main.java.controller.QuantityController;
+import main.java.entity.QuantityEntity;
+import main.java.service.QuantityService;
+import main.java.service.QuantityServiceImpl;
 
 import static test.java.QuantityMeasurementAppTest.*;
 
@@ -189,5 +193,28 @@ public class QuantityMeasurementApp {
         demonstrateTemperatureConversion();
 
         demonstrateTemperatureArithmetic();
+
+        QuantityService service =
+                new QuantityServiceImpl();
+
+        QuantityController controller =
+                new QuantityController(service);
+
+        Quantity<LengthUnit> feet =
+                new Quantity<>(1.0,
+                        LengthUnit.FEET);
+
+        Quantity<LengthUnit> inches =
+                new Quantity<>(12.0,
+                        LengthUnit.INCH);
+
+        QuantityEntity<LengthUnit> addRequest =
+                new QuantityEntity<>(
+                        feet,
+                        inches,
+                        null,
+                        "ADD");
+
+        controller.add(addRequest);
     }
 }
