@@ -109,12 +109,17 @@ public class Quantity<U extends IMeasurable> {
             Quantity<U> other,
             ArithmeticOperation operation) {
 
+        this.unit.validateOperationSupport(
+                operation.name());
+
+        other.unit.validateOperationSupport(
+                operation.name());
+
         double thisBase =
                 unit.convertToBaseUnit(value);
 
         double otherBase =
-                other.unit.convertToBaseUnit(
-                        other.value);
+                other.unit.convertToBaseUnit(other.value);
 
         return operation.compute(
                 thisBase,
@@ -132,24 +137,43 @@ public class Quantity<U extends IMeasurable> {
 
 
 
-    public Quantity<U> convertTo(
-            U targetUnit) {
+    public Quantity<U> convertTo(U targetUnit) {
 
         if (targetUnit == null) {
             throw new IllegalArgumentException(
-                    "Target unit cannot be null");
+                    "Target unit cannot be null"
+            );
         }
 
-        double baseValue =
-                unit.convertToBaseUnit(value);
+        if (!unit.getClass().equals(targetUnit.getClass())) {
+            throw new IllegalArgumentException(
+                    "Incompatible unit categories"
+            );
+        }
 
-        double convertedValue =
-                targetUnit.convertFromBaseUnit(
-                        baseValue);
+        double convertedValue;
 
-        return new Quantity<>(
-                convertedValue,
-                targetUnit);
+        if (unit instanceof TemperatureUnit) {
+
+            double baseValue =
+                    unit.convertToBaseUnit(value);
+
+            convertedValue =
+                    targetUnit.convertFromBaseUnit(baseValue);
+
+        } else {
+
+            double baseValue =
+                    unit.convertToBaseUnit(value);
+
+            convertedValue =
+                    targetUnit.convertFromBaseUnit(baseValue);
+        }
+
+        convertedValue =
+                roundToTwoDecimals(convertedValue);
+
+        return new Quantity<>(convertedValue, targetUnit);
     }
 
     public Quantity<U> add(
