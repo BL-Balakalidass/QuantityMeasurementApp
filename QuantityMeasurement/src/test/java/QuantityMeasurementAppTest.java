@@ -539,4 +539,148 @@ public class QuantityMeasurementAppTest {
                 () -> length.divide(weight));
     }
 
+    @Test
+    void testTemperatureEquality_CelsiusToFahrenheit() {
+
+        Quantity<TemperatureUnit> celsius =
+                new Quantity<>(
+                        0.0,
+                        TemperatureUnit.CELSIUS);
+
+        Quantity<TemperatureUnit> fahrenheit =
+                new Quantity<>(
+                        32.0,
+                        TemperatureUnit.FAHRENHEIT);
+
+        assertEquals(
+                celsius,
+                fahrenheit);
+    }
+
+    @Test
+    void testTemperatureConversion_CelsiusToFahrenheit() {
+
+        Quantity<TemperatureUnit> celsius =
+                new Quantity<>(
+                        100.0,
+                        TemperatureUnit.CELSIUS);
+
+        Quantity<TemperatureUnit> result =
+                celsius.convertTo(
+                        TemperatureUnit.FAHRENHEIT);
+
+        assertEquals(
+                212.0,
+                result.getValue(),
+                EPSILON);
+    }
+
+    @Test
+    void testTemperatureConversion_FahrenheitToCelsius() {
+
+        Quantity<TemperatureUnit> fahrenheit =
+                new Quantity<>(
+                        32.0,
+                        TemperatureUnit.FAHRENHEIT);
+
+        Quantity<TemperatureUnit> result =
+                fahrenheit.convertTo(
+                        TemperatureUnit.CELSIUS);
+
+        assertEquals(
+                0.0,
+                result.getValue(),
+                EPSILON);
+    }
+
+    @Test
+    void testTemperatureConversion_KelvinToCelsius() {
+
+        Quantity<TemperatureUnit> kelvin =
+                new Quantity<>(
+                        273.15,
+                        TemperatureUnit.KELVIN);
+
+        Quantity<TemperatureUnit> result =
+                kelvin.convertTo(
+                        TemperatureUnit.CELSIUS);
+
+        assertEquals(
+                0.0,
+                result.getValue(),
+                EPSILON);
+    }
+
+    @Test
+    void testTemperatureUnsupportedOperation_Add() {
+
+        Quantity<TemperatureUnit> t1 =
+                new Quantity<>(
+                        100.0,
+                        TemperatureUnit.CELSIUS);
+
+        Quantity<TemperatureUnit> t2 =
+                new Quantity<>(
+                        50.0,
+                        TemperatureUnit.CELSIUS);
+
+        assertThrows(
+                UnsupportedOperationException.class,
+                () -> t1.add(t2));
+    }
+
+    @Test
+    void testTemperatureUnsupportedOperation_Subtract() {
+
+        Quantity<TemperatureUnit> t1 =
+                new Quantity<>(
+                        100.0,
+                        TemperatureUnit.CELSIUS);
+
+        Quantity<TemperatureUnit> t2 =
+                new Quantity<>(
+                        50.0,
+                        TemperatureUnit.CELSIUS);
+
+        assertThrows(
+                UnsupportedOperationException.class,
+                () -> t1.subtract(t2));
+    }
+
+    @Test
+    void testTemperatureUnsupportedOperation_Divide() {
+
+        Quantity<TemperatureUnit> t1 =
+                new Quantity<>(
+                        100.0,
+                        TemperatureUnit.CELSIUS);
+
+        Quantity<TemperatureUnit> t2 =
+                new Quantity<>(
+                        50.0,
+                        TemperatureUnit.CELSIUS);
+
+        assertThrows(
+                UnsupportedOperationException.class,
+                () -> t1.divide(t2));
+    }
+
+    @Test
+    void testTemperatureVsLength() {
+
+        Quantity temperature =
+                new Quantity<>(
+                        100.0,
+                        TemperatureUnit.CELSIUS);
+
+        Quantity length =
+                new Quantity<>(
+                        100.0,
+                        LengthUnit.FEET);
+
+        assertNotEquals(
+                temperature,
+                length);
+    }
+
 }
