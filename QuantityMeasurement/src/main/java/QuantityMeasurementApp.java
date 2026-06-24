@@ -1,220 +1,85 @@
 package main.java;
-import main.java.controller.QuantityController;
-import main.java.entity.QuantityEntity;
-import main.java.service.QuantityService;
-import main.java.service.QuantityServiceImpl;
 
-import static test.java.QuantityMeasurementAppTest.*;
+import main.java.controller.QuantityMeasurementController;
+import main.java.entity.QuantityMeasurementEntity;
+import main.java.repository.ConnectionPool;
+import main.java.repository.QuantityMeasurementDatabaseRepository;
+import main.java.repository.QuantityMeasurementRepository;
+import main.java.service.QuantityMeasurementService;
+import main.java.service.QuantityMeasurementServiceImpl;
 
 public class QuantityMeasurementApp {
 
-    public static <U extends IMeasurable>
-    void demonstrateEquality(
-            Quantity<U> q1,
-            Quantity<U> q2) {
-
-        System.out.println(
-                q1.equals(q2));
-    }
-
-    public static <U extends IMeasurable>
-    void demonstrateConversion(
-            Quantity<U> quantity,
-            U targetUnit) {
-
-        System.out.println(
-                quantity.convertTo(
-                        targetUnit));
-    }
-
-    public static <U extends IMeasurable>
-    void demonstrateAddition(
-            Quantity<U> q1,
-            Quantity<U> q2,
-            U targetUnit) {
-
-        System.out.println(
-                q1.add(
-                        q2,
-                        targetUnit));
-    }
-
-
-    private static void demonstrateLengthSubtraction() {
-
-        Quantity<LengthUnit> result =
-                new Quantity<>(10.0, LengthUnit.FEET)
-                        .subtract(
-                                new Quantity<>(6.0,
-                                        LengthUnit.INCH));
-
-        System.out.println(result);
-    }
-
-    private static void demonstrateWeightSubtraction() {
-
-        Quantity<WeightUnit> result =
-                new Quantity<>(10.0,
-                        WeightUnit.KILOGRAM)
-                        .subtract(
-                                new Quantity<>(5000.0,
-                                        WeightUnit.GRAM));
-
-        System.out.println(result);
-    }
-
-    private static void demonstrateVolumeSubtraction() {
-
-        Quantity<VolumeUnit> result =
-                new Quantity<>(5.0,
-                        VolumeUnit.LITRE)
-                        .subtract(
-                                new Quantity<>(500.0,
-                                        VolumeUnit.MILLILITRE));
-
-        System.out.println(result);
-    }
-
-    private static void demonstrateLengthDivision() {
-
-        double result =
-                new Quantity<>(10.0,
-                        LengthUnit.FEET)
-                        .divide(
-                                new Quantity<>(2.0,
-                                        LengthUnit.FEET));
-
-        System.out.println(result);
-    }
-
-    private static void demonstrateTemperatureEquality() {
-
-        Quantity<TemperatureUnit> celsius =
-                new Quantity<>(
-                        0.0,
-                        TemperatureUnit.CELSIUS);
-
-        Quantity<TemperatureUnit> fahrenheit =
-                new Quantity<>(
-                        32.0,
-                        TemperatureUnit.FAHRENHEIT);
-
-        System.out.println(
-                "0°C equals 32°F = "
-                        + celsius.equals(fahrenheit));
-    }
-
-
-    private static void demonstrateTemperatureConversion() {
-
-        Quantity<TemperatureUnit> boilingPoint =
-                new Quantity<>(
-                        100.0,
-                        TemperatureUnit.CELSIUS);
-
-        System.out.println(
-                boilingPoint.convertTo(
-                        TemperatureUnit.FAHRENHEIT));
-    }
-
-    private static void demonstrateTemperatureArithmetic() {
-
-        try {
-
-            Quantity<TemperatureUnit> t1 =
-                    new Quantity<>(
-                            100.0,
-                            TemperatureUnit.CELSIUS);
-
-            Quantity<TemperatureUnit> t2 =
-                    new Quantity<>(
-                            50.0,
-                            TemperatureUnit.CELSIUS);
-
-            t1.add(t2);
-
-        } catch (UnsupportedOperationException e) {
-
-            System.out.println(
-                    e.getMessage());
-        }
-    }
-
     public static void main(String[] args) {
 
-        Quantity<LengthUnit> foot =
-                new Quantity<>(
-                        1.0,
-                        LengthUnit.FEET);
+        ConnectionPool pool =
+                new ConnectionPool(5);
 
-        Quantity<LengthUnit> inch =
-                new Quantity<>(
-                        12.0,
-                        LengthUnit.INCH);
+        QuantityMeasurementRepository repository =
+                new QuantityMeasurementDatabaseRepository(
+                        pool) {
+                    @Override
+                    public void saveMeasurement(QuantityMeasurementEntity entity) {
 
-        demonstrateEquality(
-                foot,
-                inch);
+                    }
 
-        demonstrateConversion(
-                foot,
-                LengthUnit.INCH);
+                    @Override
+                    public double divide(Quantity<LengthUnit> lengthUnitQuantity, Quantity<LengthUnit> lengthUnitQuantity1) {
+                        return 0;
+                    }
 
-        demonstrateAddition(
-                foot,
-                inch,
-                LengthUnit.FEET);
+                    @Override
+                    public Quantity<LengthUnit> add(Quantity<LengthUnit> lengthUnitQuantity, Quantity<LengthUnit> lengthUnitQuantity1) {
+                        return null;
+                    }
 
-        Quantity<WeightUnit> kilogram =
-                new Quantity<>(
-                        1.0,
-                        WeightUnit.KILOGRAM);
+                    @Override
+                    public boolean compare(Quantity<LengthUnit> lengthUnitQuantity, Quantity<LengthUnit> lengthUnitQuantity1) {
+                        return false;
+                    }
 
-        Quantity<WeightUnit> gram =
-                new Quantity<>(
-                        1000.0,
-                        WeightUnit.GRAM);
+                    @Override
+                    public Quantity<LengthUnit> subtract(Quantity<LengthUnit> lengthUnitQuantity, Quantity<LengthUnit> lengthUnitQuantity1) {
+                        return null;
+                    }
 
-        demonstrateEquality(
-                kilogram,
-                gram);
+                    @Override
+                    public Quantity<LengthUnit> convert(Quantity<LengthUnit> lengthUnitQuantity, LengthUnit lengthUnit) {
+                        return null;
+                    }
+                };
 
-        demonstrateConversion(
-                kilogram,
-                WeightUnit.GRAM);
+        QuantityMeasurementService service =
+                new QuantityMeasurementServiceImpl(
+                        repository);
 
-        demonstrateAddition(
-                kilogram,
-                gram,
-                WeightUnit.KILOGRAM);
+        QuantityMeasurementController controller =
+                new QuantityMeasurementController(
+                        service);
 
-        demonstrateTemperatureEquality();
+        System.out.println(
+                "Example 1: Saving Quantity Comparison");
 
-        demonstrateTemperatureConversion();
+        QuantityMeasurementEntity entity =
+                new QuantityMeasurementEntity(
+                        "Length",
+                        "Comparison",
+                        "1 FEET vs 12 INCHES",
+                        "TRUE");
 
-        demonstrateTemperatureArithmetic();
+        controller.saveMeasurement(entity);
 
-        QuantityService service =
-                new QuantityServiceImpl();
+        System.out.println(
+                "\nExample 2: Retrieving Measurements");
 
-        QuantityController controller =
-                new QuantityController(service);
+        controller.displayMeasurementsByType(
+                "Length");
 
-        Quantity<LengthUnit> feet =
-                new Quantity<>(1.0,
-                        LengthUnit.FEET);
+        System.out.println(
+                "\nExample 3: Connection Pool Management");
 
-        Quantity<LengthUnit> inches =
-                new Quantity<>(12.0,
-                        LengthUnit.INCH);
-
-        QuantityEntity<LengthUnit> addRequest =
-                new QuantityEntity<>(
-                        feet,
-                        inches,
-                        null,
-                        "ADD");
-
-        controller.add(addRequest);
+        System.out.println(
+                "Available Connections = "
+                        + pool.availableConnections());
     }
 }
