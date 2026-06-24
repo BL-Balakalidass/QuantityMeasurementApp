@@ -463,5 +463,80 @@ public class QuantityMeasurementAppTest {
                 result);
     }
 
+    @Test
+    void testArithmeticOperation_Add_EnumComputation() {
+
+        assertEquals(
+                15.0,
+                Quantity.ArithmeticOperation.ADD.compute(
+                        10.0,
+                        5.0));
+    }
+
+    @Test
+    void testArithmeticOperation_Divide_EnumComputation() {
+
+        assertEquals(
+                2.0,
+                Quantity.ArithmeticOperation.DIVIDE.compute(
+                        10.0,
+                        5.0));
+    }
+
+    @Test
+    void testArithmeticOperation_DivideByZero_EnumThrows() {
+
+        assertThrows(
+                ArithmeticException.class,
+                () -> Quantity.ArithmeticOperation.DIVIDE.compute(
+                        10.0,
+                        0.0));
+    }
+
+    @Test
+    void testValidation_NullOperand_ConsistentAcrossOperations() {
+
+        Quantity<LengthUnit> feet =
+                new Quantity<>(10.0,
+                        LengthUnit.FEET);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> feet.add(null));
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> feet.subtract(null));
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> feet.divide(null));
+    }
+
+    @Test
+    void testValidation_CrossCategory_ConsistentAcrossOperations() {
+
+        Quantity length =
+                new Quantity<>(
+                        10.0,
+                        LengthUnit.FEET);
+
+        Quantity weight =
+                new Quantity<>(
+                        5.0,
+                        WeightUnit.KILOGRAM);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> length.add(weight));
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> length.subtract(weight));
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> length.divide(weight));
+    }
 
 }
