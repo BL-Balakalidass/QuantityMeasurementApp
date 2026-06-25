@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ca9d3bef-3126-4a3c-a96f-245e9a43d0cf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Quantity_Measurement_App/src/test/java/com/app/quantitymeasurement/controller/QuantityMeasurementControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/QuantityMeasurementApp.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/QuantityMeasurement/src/main/java/repository/ConnectionPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/QuantityMeasurement/src/main/java/repository/ConnectionPool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QuantityMeasurement/src/main/java/repository/QuantityMeasurementDatabaseRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/QuantityMeasurement/src/main/java/repository/QuantityMeasurementDatabaseRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuantityMeasurement/main/java/repository/ConnectionPool.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuantityMeasurement/main/java/repository/ConnectionPool.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuantityMeasurement/main/java/repository/QuantityMeasurementDatabaseRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuantityMeasurement/main/java/repository/QuantityMeasurementDatabaseRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Quantity_Measurement_App/src/test/java/com/app/quantitymeasurement/controller/QuantityMeasurementControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Quantity_Measurement_App/src/test/java/com/app/quantitymeasurement/controller/QuantityMeasurementControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +24,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -88,7 +85,7 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "feature/UC17-SpringBoot-QuantityMeasurement",
     "kotlin-language-version-configured": "true",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",

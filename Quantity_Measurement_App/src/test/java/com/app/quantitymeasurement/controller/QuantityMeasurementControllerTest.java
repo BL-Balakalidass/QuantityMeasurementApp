@@ -62,6 +62,57 @@ public class QuantityMeasurementControllerTest {
                 .andExpect(jsonPath("$.resultString").value("true"));
     }
 
+//    // ---------------- TEST: ADD ----------------
+//    @Test
+//    public void testAdd() throws Exception {
+//
+//        QuantityMeasurementDTO response = new QuantityMeasurementDTO();
+//        response.setResultString("added");
+//
+//        Mockito.when(service.add(any(QuantityInputDTO.class)))
+//                .thenReturn(response);
+//
+//        mockMvc.perform(post("/api/v1/quantities/add")
+//                        .contentType(APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(new QuantityInputDTO())))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.resultString").value("added"));
+//    }
+//
+//    // ---------------- TEST: SUBTRACT ----------------
+//    @Test
+//    public void testSubtract() throws Exception {
+//
+//        QuantityMeasurementDTO response = new QuantityMeasurementDTO();
+//        response.setResultString("subtracted");
+//
+//        Mockito.when(service.subtract(any(QuantityInputDTO.class)))
+//                .thenReturn(response);
+//
+//        mockMvc.perform(post("/api/v1/quantities/subtract")
+//                        .contentType(APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(new QuantityInputDTO())))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.resultString").value("subtracted"));
+//    }
+//    // ---------------- TEST: DIVIDE ----------------
+//    @Test
+//    public void testDivide() throws Exception {
+//
+//        QuantityMeasurementDTO response = new QuantityMeasurementDTO();
+//        response.setResultString("divided");
+//
+//        Mockito.when(service.divide(any(QuantityInputDTO.class)))
+//                .thenReturn(response);
+//
+//        mockMvc.perform(post("/api/v1/quantities/divide")
+//                        .contentType(APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(new QuantityInputDTO())))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.resultString").value("divided"));
+//    }
+
+
 
 
 }
