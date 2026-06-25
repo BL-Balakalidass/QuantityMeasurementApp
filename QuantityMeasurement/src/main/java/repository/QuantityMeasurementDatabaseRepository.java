@@ -29,13 +29,15 @@ public abstract class QuantityMeasurementDatabaseRepository
                         "result VARCHAR(255)" +
                         ")";
 
-        try (
-                Connection connection = pool.getConnection();
-                Statement statement = connection.createStatement()
-        ) {
+        try {
+            assert pool != null;
+            try (Connection connection = pool.getConnection();
+                 Statement statement = connection.createStatement()
+            ) {
 
-            statement.execute(sql);
+                statement.execute(sql);
 
+            }
         } catch (SQLException e) {
 
             throw new RuntimeException(

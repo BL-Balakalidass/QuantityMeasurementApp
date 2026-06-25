@@ -15,26 +15,17 @@ public class ConnectionPool {
 
     public ConnectionPool(int poolSize) {
 
-        try {
+        for(int i = 0; i < poolSize; i++) {
 
-            for(int i = 0; i < poolSize; i++) {
-
-                connections.add(
-                        DriverManager.getConnection(
-                                ApplicationConfig.get("db.url"),
-                                ApplicationConfig.get("db.username"),
-                                ApplicationConfig.get("db.password")
-                        )
-                );
-            }
-
-        } catch (SQLException e) {
-
-            throw new DatabaseException(
-                    "Failed to initialize connection pool",
-                    e
-            );
+//                connections.add(
+//                        DriverManager.getConnection(
+//                                ApplicationConfig.get("db.url"),
+//                                ApplicationConfig.get("db.username"),
+//                                ApplicationConfig.get("db.password")
+//                        )
+//                );
         }
+
     }
 
     public ConnectionPool(String s, String sa, String s1, int i) {
