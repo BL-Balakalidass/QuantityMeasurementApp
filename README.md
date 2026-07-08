@@ -392,6 +392,7 @@ Submit your Pull Request for review.
 
 **Java Full Stack Developer**
 
+
 ### Skills
 
 * Java
@@ -402,6 +403,7 @@ Submit your Pull Request for review.
 * REST APIs
 * Microservices
 * Docker
+  
 
 ### GitHub
 
