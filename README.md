@@ -318,7 +318,7 @@ directly from your IDE.
 
 ---
 
-# 📈 Learning Outcomes
+# Learning Outcomes
 
 This project demonstrates
 
@@ -337,7 +337,7 @@ This project demonstrates
 
 ---
 
-# 🚀 Future Enhancements
+#  Future Enhancements
 
 * JWT Authentication
 * Spring Security
@@ -352,7 +352,7 @@ This project demonstrates
 
 ---
 
-# 🤝 Contributing
+#  Contributing
 
 Contributions are welcome!
 
