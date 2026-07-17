@@ -330,8 +330,8 @@ This project demonstrates
 * Unit Conversion Logic
 * Object-Oriented Programming
 * Exception Handling
-* Unit Testing
 * Mockito
+* Unit Testing
 * MockMvc
 * Clean Code Practices
 
@@ -350,18 +350,13 @@ This project demonstrates
 * Interactive Unit Conversion Dashboard
 * Microservices Architecture
 
----
-
 #  Contributing
-
 Contributions are welcome!
-
 ### Fork Repository
 
 ```bash
 git fork
 ```
-
 ### Create a Branch
 
 ```bash
